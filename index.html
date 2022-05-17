@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <input type="file">
+  <img src="https://scontent.ftpe8-4.fna.fbcdn.net/v/t1.18169-9/18425502_430875550618881_3069280140470796949_n.png?_nc_cat=110&ccb=1-6&_nc_sid=09cbfe&_nc_ohc=ZiTt0H88jqQAX9xgXrm&_nc_ht=scontent.ftpe8-4.fna&oh=00_AT_YB1Q17lIQGV-63wVgPE2bfwIKDy6P9ziRHTlYS8hy6w&oe=62A89C09" alt="image">
+  <p id="url"></p>
+  <script>
+    const file = document.querySelector('input');
+    const img = document.querySelector('img');
+    const url = document.querySelector('p');
+    file.addEventListener('change', event => {
+      const formdata = new FormData()
+      formdata.append('image', event.target.files[0]);
+      fetch('https://api.imgur.com/3/image/', {
+        method: 'post',
+        headers: {
+          Authorization: 'Client-ID 038bc959bd6050e',
+        },
+        body: formdata
+      }).then(data => data.json()).then(data => {
+        img.src = data.data.link;
+        url.innerText = data.data.link;
+      })
+    })
+  </script>
+</body>
+</html>
